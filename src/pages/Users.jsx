@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom';
 import ModalUser from "../components/ModalUser.jsx";
+import ModalRunAction from "../components/ModalRunAction.jsx";
+
 
 import {
   Button,
@@ -355,8 +357,9 @@ const Users = () => {
                       <div style={{width:'30%',marginTop:10}}>{user.firstname} {user.lastname}</div>
                       <div style={{width:'30%',marginTop:10}}>{user.email}</div>
                       <div style={{width:'40%',textAlign:'right',whiteSpace:'nowrap'}}>
-                          <ModalUser getUsers={getUsers} actions={actions} userContent={user} userId={user.id} />
-                          <Button style={{backgroundColor:'#289F30',color:'white',marginLeft:'5%',textAlign:'left'}} onClick={()=>{getAnswers(user.id)}}>Run action</Button>
+                          <ModalUser getUsers={getUsers} actions={actions} userContent={user} 
+                          userId={user.id} />
+                          <ModalRunAction userId={user.id} />
                       </div> 
                   </div>
                 )

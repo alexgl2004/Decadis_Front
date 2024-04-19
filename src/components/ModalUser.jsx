@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Checkbox, Form, Input, Button, Modal, Space } from 'antd';
 
-const { TextArea } = Input;
+const { confirm } = Modal;
 
 const ModalUser = (params) => {
 
@@ -57,23 +58,32 @@ function openEditUser(){
   }
 
   function delUser(userId){
-    const test = confirm('Are you shure to delete?')
-    if(test){
-      const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      };
 
-      fetch('http://localhost:3000/users/' + userId + '/delete', requestOptions)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-  //      console.log(data)
-        params.getUsers()
+    confirm({
+      title: 'Do you want to delete this item?',
+      icon: <ExclamationCircleFilled />,
+      content: 'This process does not delete items created by this user',
+      onOk() {
+        const requestOptions = {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        };
+  
+        fetch('http://localhost:3000/users/' + userId + '/delete', requestOptions)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+    //      console.log(data)
+          params.getUsers()
+      
+        })
+      },
+      onCancel() {
+
+      },
+    });    
     
-      })
-    }
   }
 
   const onChangeChecked = (list) => {
@@ -140,7 +150,7 @@ function openEditUser(){
           :
           <>
             <Button style={{backgroundColor:'#177FC9',color:'white',textAlign:'center'}} onClick={openEditUser}>Edit</Button>
-            <Button style={{backgroundColor:'#D63436',color:'white',marginLeft:'5%',textAlign:'center'}} onClick={()=>{delUser(params.userId)}}>Detele</Button>
+            <Button style={{backgroundColor:'#D63436',color:'white',marginLeft:8,textAlign:'center'}} onClick={()=>{delUser(params.userId)}}>Detele</Button>
           </>
         }
       </Space>
