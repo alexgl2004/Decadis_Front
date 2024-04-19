@@ -8,8 +8,6 @@ const DeleteItem = (params) => {
     params.getPositionsItems()
   }, []);  
 
-//  const [runAction, setRunAction] = useState(null);
-
   const onChangeItemChecked = (elem) => {
 
     console.log(params.runAction)
@@ -42,14 +40,9 @@ const DeleteItem = (params) => {
 
   }
 
-//  if(runAction){
-    const [ selectBox_items, arr_options_items ] = returnArraysFor(params.runAction?params.runAction.items:[])
-//  }
-  
+  const [ selectBox_items, arr_options_items ] = returnArraysFor(params.runAction?params.runAction.items:[])
 
-//  console.log(1000,runAction,selectBox_options)
-
-   return (
+  return (
     <>
       {params.runAction && params.runAction.items?
         <>

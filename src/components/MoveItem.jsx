@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Select, Button, Modal, Space } from 'antd';
+import React, { useEffect } from 'react';
+import { Select } from 'antd';
 
 const MoveItem = (params) => {
-
 
   useEffect(() => {
     params.getPositionsItems()
   }, []);  
-
-//  const [runAction, setRunAction] = useState(null);
 
   const onChangeItemChecked = (elem) => {
 
@@ -53,13 +50,10 @@ const MoveItem = (params) => {
 
   }
 
-//  if(runAction){
-    const [ selectBox_items, arr_options_items ] = returnArraysFor(params.runAction?params.runAction.items:[])
-    const [ selectBox_positions, arr_options_positions ] = returnArraysFor(params.runAction?params.runAction.positions:[])
-//  }
-  
 
-//  console.log(1000,runAction,selectBox_options)
+  const [ selectBox_items, arr_options_items ] = returnArraysFor(params.runAction?params.runAction.items:[])
+  const [ selectBox_positions, arr_options_positions ] = returnArraysFor(params.runAction?params.runAction.positions:[])
+  
 
    return (
     <>

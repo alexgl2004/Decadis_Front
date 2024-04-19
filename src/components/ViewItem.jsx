@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Select, Button, Modal, Space } from 'antd';
+import React, { useEffect } from 'react';
+import { Select } from 'antd';
 
 const ViewItem = (params) => {
-
 
   useEffect(() => {
     params.getPositionsItems()
   }, []);  
-
-//  const [runAction, setRunAction] = useState(null);
 
   const onChangeItemChecked = (elem) => {
 

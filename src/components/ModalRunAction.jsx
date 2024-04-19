@@ -12,13 +12,10 @@ const { TextArea } = Input;
 
 const ModalRunAction = (params) => {
 
-//  console.log(params)
-
   const [isModalOpen, setIsModalOpen] = useState([false, false]);
   const [tempAction, setTempAction] = useState(null);
   const [runAction, setRunAction] = useState(null);
   const [modalContent, setModalContent] = useState(null);
-  
 
   function makeCancelAction(){
     setTempAction({
@@ -30,235 +27,186 @@ const ModalRunAction = (params) => {
     })    
   }
 
-function addUser(){
-  toggleModal(1, true)
-  makeCancelAction()
-}
-
-function openRunAction(){
-  toggleModal(1, true)
-
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  };
-
-  fetch('http://localhost:3000/actions/user/'+params.userId, requestOptions)
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-    setTempAction({
-      acceptedItems:data,
-      current:''
-    })
-  })
-
-}
-
-function runFucntAction(){
-
-  //console.log(runAction)
-
-  switch(runAction.runFunction){
-    
-    case 'move':
-
-      const requestOptions_move = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          position_id: runAction.position,
-          user_id: params.userId
-        })
-      };        
-    
-      fetch('http://localhost:3000/items/'+runAction.item+'/move', requestOptions_move)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-    
-        setModalContent({
-          title: 'Item successfully moved'
-        })
-
-        toggleModal(2, true)
-
-      });
-
-    break;
-    case 'delete':
-
-      const requestOptions_delete = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: params.userId
-        })
-      };        
-    
-      fetch('http://localhost:3000/items/'+runAction.item+'/delete', requestOptions_delete)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-    
-        setModalContent({
-          title: 'Item successfully deleted'
-        })
-
-        toggleModal(2, true)
-
-      });
-
-    break;
-    case 'create':
-
-      const requestOptions_create = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: params.userId,
-          name: runAction.name,
-          text: runAction.text,
-        })
-      };        
-    
-      fetch('http://localhost:3000/items/add', requestOptions_create)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-    
-        setModalContent({
-          title: 'Item: ' + runAction.name +' successfully added',
-        })
-
-        toggleModal(2, true)
-
-      });
-
-    break;
-    case 'view':
-
-      const requestOptions_view = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: params.userId
-        })
-      };        
-    
-      fetch('http://localhost:3000/items/'+runAction.item+'/', requestOptions_view)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-
-        console.log(data)
-
-        setModalContent({
-          title:data.name,
-          text:'Description: ' + data.text + data.position_id,
-          add_text:'Position:  ' + runAction.positions.filter((elem)=>{ return data.position_id=elem.id})[0].name,
-        })
-
-        toggleModal(2, true)
-
-      });
-
-    break;    
-
-  }
-
-}
-
-function getPositionsItems(){
-
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  };        
-
-  fetch('http://localhost:3000/items', requestOptions)
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-
-    if(data){    
-
-      const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      };        
-
-      fetch('http://localhost:3000/items/positions', requestOptions)
-      .then((res) => {
-        return res.json();
-      })        
-      .then((data2) => {
-
-        if(data2){
-          setRunAction({
-            items: data,
-            positions: data2
-          })
-        }
-
-      })
-
-    }else{
-
-    }
-
-  });
-  
-}
-
-
-/*
-  function runAction(add=0){
+  function openRunAction(){
+    toggleModal(1, true)
 
     const requestOptions = {
-      method: 'POST',
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(tempAction)
     };
 
-    fetch('http://localhost:3000/users/'+(add?'add':tempAction.id+'/edit'), requestOptions)
+    fetch('http://localhost:3000/actions/user/'+params.userId, requestOptions)
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-//      console.log(data)
-      params.getUsers()
-  
+      setTempAction({
+        acceptedItems:data,
+        current:''
+      })
     })
-  }
-*/  
-/*
-  function delUser(userId){
-    const test = confirm('Are you shure to delete?')
-    if(test){
-      const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      };
 
-      fetch('http://localhost:3000/users/' + userId + '/delete', requestOptions)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-  //      console.log(data)
-        params.getUsers()
-    
-      })
-    }
   }
-*/
+
+  function runFucntAction(){
+
+    switch(runAction.runFunction){
+      
+      case 'move':
+
+        const requestOptions_move = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            position_id: runAction.position,
+            user_id: params.userId
+          })
+        };        
+      
+        fetch('http://localhost:3000/items/'+runAction.item+'/move', requestOptions_move)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+      
+          setModalContent({
+            title: 'Item successfully moved'
+          })
+
+          toggleModal(2, true)
+
+        });
+
+      break;
+      case 'delete':
+
+        const requestOptions_delete = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: params.userId
+          })
+        };        
+      
+        fetch('http://localhost:3000/items/'+runAction.item+'/delete', requestOptions_delete)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+      
+          setModalContent({
+            title: 'Item successfully deleted'
+          })
+
+          toggleModal(2, true)
+
+        });
+
+      break;
+      case 'create':
+
+        const requestOptions_create = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: params.userId,
+            name: runAction.name,
+            text: runAction.text,
+          })
+        };        
+      
+        fetch('http://localhost:3000/items/add', requestOptions_create)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+      
+          setModalContent({
+            title: 'Item: ' + runAction.name +' successfully added',
+          })
+
+          toggleModal(2, true)
+
+        });
+
+      break;
+      case 'view':
+
+        const requestOptions_view = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: params.userId
+          })
+        };        
+      
+        fetch('http://localhost:3000/items/'+runAction.item+'/', requestOptions_view)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+
+          console.log(data)
+
+          setModalContent({
+            title:data.name,
+            text:'Description: ' + data.text + data.position_id,
+            add_text:'Position:  ' + runAction.positions.filter((elem)=>{ return data.position_id=elem.id})[0].name,
+          })
+
+          toggleModal(2, true)
+
+        });
+
+      break;    
+
+    }
+
+  }
+
+  function getPositionsItems(){
+
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };        
+
+    fetch('http://localhost:3000/items', requestOptions)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+
+      if(data){    
+
+        const requestOptions = {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        };        
+
+        fetch('http://localhost:3000/items/positions', requestOptions)
+        .then((res) => {
+          return res.json();
+        })        
+        .then((data2) => {
+
+          if(data2){
+            setRunAction({
+              items: data,
+              positions: data2
+            })
+          }
+
+        })
+
+      }else{
+
+      }
+
+    });
+    
+  }
+
 
   const onChangeChecked = (elem) => {
     setTempAction({
@@ -266,30 +214,7 @@ function getPositionsItems(){
       current:elem
     })    
   }
-/*
-  const onChangeND = (e,field) => {
-    switch(field){
-      case 'firstname':
-        setTempAction({
-          ...tempAction,
-          firstname:e.target.value,
-        })
-      break;
-      case 'lastname':
-        setTempAction({
-          ...tempAction,
-          lastname:e.target.value,
-        })
-      break;
-      case 'email':
-        setTempAction({
-          ...tempAction,
-          email:e.target.value,
-        })
-      break;
-    }
-  }
-*/
+
   const toggleModal = (idx, target) => {
     setIsModalOpen((p) => {
       p[idx] = target;
@@ -318,8 +243,6 @@ function getPositionsItems(){
     })
 
   }
-
-  console.log(1000,runAction)
 
   return (
     <>

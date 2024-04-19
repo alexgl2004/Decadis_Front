@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Checkbox, Form, Input, Button, Modal, Space } from 'antd';
+
+import ContentShowElem from "../components/ContentShowElem.jsx";
 
 const { confirm } = Modal;
 
 const ModalUser = (params) => {
 
-//  console.log(params)
-
   const [isModalOpen, setIsModalOpen] = useState([false, false]);
   const [tempUser, setTempUser] = useState(null);
+  const [modalContent, setModalContent] = useState(null);
 
   function makeNullUser(){
     setTempUser({
@@ -21,22 +22,21 @@ const ModalUser = (params) => {
     })    
   }
 
-function addUser(){
-  toggleModal(0, true)
-  makeNullUser()
-}
+  function addUser(){
+    toggleModal(0, true)
+    makeNullUser()
+  }
 
-function openEditUser(){
-  toggleModal(0, true)
-  setTempUser({
-    firstname: params.userContent.firstname?params.userContent.firstname:"",
-    lastname: params.userContent.lastname?params.userContent.lastname:"",
-    email: params.userContent.email?params.userContent.email:"",
-    action_ids: params.userContent.action_ids?params.userContent.action_ids.split(','):[],
-    id: params.userId?params.userId:"",
-  })
-}
-
+  function openEditUser(){
+    toggleModal(0, true)
+    setTempUser({
+      firstname: params.userContent.firstname?params.userContent.firstname:"",
+      lastname: params.userContent.lastname?params.userContent.lastname:"",
+      email: params.userContent.email?params.userContent.email:"",
+      action_ids: params.userContent.action_ids?params.userContent.action_ids.split(','):[],
+      id: params.userId?params.userId:"",
+    })
+  }
 
   function saveUser(add=0){
 
@@ -51,9 +51,12 @@ function openEditUser(){
       return res.json();
     })
     .then((data) => {
-//      console.log(data)
       params.getUsers()
-  
+      setModalContent({
+        title: 'Item successfully ' + (add?'created':'updated')
+      })
+
+      toggleModal(2, true) 
     })
   }
 
@@ -74,9 +77,7 @@ function openEditUser(){
           return res.json();
         })
         .then((data) => {
-    //      console.log(data)
           params.getUsers()
-      
         })
       },
       onCancel() {
@@ -137,8 +138,6 @@ function openEditUser(){
     })
 
   }
-
-//  console.log(1000,tempUser,checkBox_options)
 
   return (
     <>
@@ -205,6 +204,7 @@ function openEditUser(){
         </>:
         ''}
       </Modal>
+      <ContentShowElem content={modalContent} toggleModal={toggleModal} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </>
   );
 };

@@ -1,16 +1,14 @@
-import { HomeTwoTone, QqOutlined, ApiOutlined, CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons';
-import { Layout, Flex, Menu, Button } from 'antd';
+import { HomeTwoTone, CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons';
+import { Layout, Flex, Menu } from 'antd';
 import { useState } from 'react';
-import { Navigate, Outlet, Link } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 
 const { Content, Header, Footer } = Layout;
 
 const layoutStyle = {
   borderRadius: 8,
   overflow: 'hidden',
-//  width: 'calc(50% - 8px)',
   width: '100%',
-//  maxWidth: 'calc(50% - 8px)',
 };
 
 const headerStyle = {
@@ -58,7 +56,6 @@ const Routerblock = () => {
 
   const [current, setCurrent] = useState('h');
   const onClick = (e) => {
-//    console.log('click ', e);
     setCurrent(e.key);
   };
 
@@ -72,6 +69,9 @@ const Routerblock = () => {
             </Menu.Item>
             <Menu.Item key="u" icon= {<InfoCircleOutlined />}>
                 <Link to="/users">Users</Link>
+            </Menu.Item>
+            <Menu.Item key="c" icon= {<CheckCircleTwoTone />}>
+                <Link to="/nulled">Clear/Create database</Link>
             </Menu.Item>
           </Menu>
         </Header>

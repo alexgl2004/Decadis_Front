@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Modal, Space } from 'antd';
+import React from 'react';
+import { Modal } from 'antd';
 
 const ContentModal = (params) => {
-
-//  console.log(params)
 
   return (
     <>

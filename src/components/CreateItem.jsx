@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Select, Form, Input, Button, Modal, Space } from 'antd';
+import React, { useEffect } from 'react';
+import { Select, Form, Input } from 'antd';
 
 const { TextArea } = Input;
 
@@ -58,13 +58,9 @@ const CreateItem = (params) => {
 
   }
 
-    const [ selectBox_positions, arr_options_positions ] = returnArraysFor(params.runAction?params.runAction.positions:[])
+  const [ selectBox_positions, arr_options_positions ] = returnArraysFor(params.runAction?params.runAction.positions:[])
 
-  
-
-//  console.log(1000,runAction,selectBox_options)
-
-   return (
+  return (
     <>
       <h5 style={{borderTop:'1px solid #ccc',paddingTop:10,marginTop:15}}>Create new item</h5>
       <Form.Item label="Name of item">
