@@ -155,13 +155,21 @@ function openEditUser(){
           makeNullUser()
           toggleModal(0, false)
         }}
+        okText = {params.add && parseInt(params.add)==1?'Create':'Update'}
+        cancelText = "Cancel"
+        okButtonProps={{
+            disabled: (tempUser && tempUser.firstname?false:true)
+        }}        
+        cancelButtonProps={{
+//          disabled: true,
+        }}        
       >
 
       {tempUser?
         <>
-          <Form.Item label="First name">
+          <Form.Item label="First name *">
             <Input 
-              name="firstname" 
+              name="firstname *" 
               onChange={(e)=>{onChangeND(e,'firstname')}}
               value={tempUser && tempUser.firstname?tempUser.firstname:''}
             />
@@ -182,7 +190,7 @@ function openEditUser(){
           </Form.Item>
 
           {params && params.actions?
-            <Checkbox.Group options={checkBox_options} value={tempUser.action_ids} defaultValue={tempUser.action_ids} onChange={onChangeChecked} />        
+            <Checkbox.Group style={{width:120}} options={checkBox_options} value={tempUser.action_ids} defaultValue={tempUser.action_ids} onChange={onChangeChecked} />        
           :''}
         </>:
         ''}
